@@ -1,8 +1,149 @@
 <!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ECOS - Sistema de Evaluación</title>
+  <style>
+    /* Estilos generales para centrar el contenido */
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f4f6f9; /* Color de fondo suave */
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #333;
+    }
+
+    /* Contenedor principal de la tarjeta de carga */
+    .loader-card {
+      text-align: center;
+      background: #ffffff;
+      padding: 40px 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      max-width: 400px;
+      width: 85%;
+    }
+
+    /* Estilos del Logo del Evento */
+    .logo-container {
+      margin-bottom: 20px;
+    }
+
+    .logo-container img {
+      max-width: 150px;
+      height: auto;
+      object-fit: contain;
+    }
+
+    /* Textos del encabezado */
+    h1 {
+      font-size: 1.4rem;
+      margin: 10px 0 5px 0;
+      color: #1a202c;
+    }
+
+    p.subtitle {
+      font-size: 0.95rem;
+      color: #718096;
+      margin-bottom: 30px;
+    }
+
+    /* Contenedor de la Barra de Progreso */
+    .progress-box {
+      width: 100%;
+      background-color: #edf2f7;
+      border-radius: 20px;
+      height: 14px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    /* La barra que se va llenando */
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #3182ce, #63b3ed); /* Gradiente azul elegante */
+      border-radius: 20px;
+      transition: width 0.05s linear;
+    }
+
+    /* Texto del Porcentaje (0% - 100%) */
+    .percentage-text {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #4a5568;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="loader-card">
+    <!-- 1. LOGO DEL EVENTO -->
+    <div class="logo-container">
+      <!-- Reemplaza esta URL por el enlace directo a tu logo de ECOS -->
+      <img src="https://via.placeholder.com/150x150.png?text=Logo+ECOS" alt="Logo ECOS">
+    </div>
+
+    <!-- 2. TEXTOS DE BIENVENIDA -->
+    <h1>Bienvenidos</h1>
+    <p class="subtitle">Sistema de Evaluación de ECOS</p>
+
+    <!-- 3. BARRA Y PORCENTAJE -->
+    <div class="progress-box">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="percentage-text" id="percentText">Cargando 0%</div>
+  </div>
+
+  <!-- 4. LÓGICA DE TIEMPO Y REDIRECCIÓN -->
+  <script>
+    const targetUrl = "https://script.google.com/macros/s/AKfycbyXHPoMrzjdVQpoWJXgCFK4sRCMemHMkJbDeo9Lib5Z3DtCgS6lisrkQcqdOS2h5FTZ/exec"; 
+    const durationInSeconds = 5; // Duración en segundos (5 seg)
+    
+    const progressBar = document.getElementById('progressBar');
+    const percentText = document.getElementById('percentText');
+
+    let startTime = null;
+    const durationInMs = durationInSeconds * 1000;
+
+    function updateProgress(timestamp) {
+      if (!startTime) startTime = timestamp;
+      const elapsed = timestamp - startTime;
+      
+      // Calcular porcentaje actual (Limitado al 100%)
+      const progress = Math.min((elapsed / durationInMs) * 100, 100);
+
+      // Actualizar la barra y el texto en pantalla
+      progressBar.style.width = progress + '%';
+      percentText.textContent = `Cargando ${Math.floor(progress)}%`;
+
+      if (progress < 100) {
+        // Continuar la animación si no ha llegado al 100%
+        requestAnimationFrame(updateProgress);
+      } else {
+        // Al llegar al 100%, esperar un instante y redirigir
+        percentText.textContent = "¡Listo! Redirigiendo...";
+        setTimeout(() => {
+          window.location.href = targetUrl;
+        }, 300);
+      }
+    }
+
+    // Iniciar animación al cargar la página
+    requestAnimationFrame(updateProgress);
+  </script>
+
+</body>
+</html>
+
+<!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="refresh" content="0; 
-      url=https://script.google.com/macros/s/AKfycbyXHPoMrzjdVQpoWJXgCFK4sRCMemHMkJbDeo9Lib5Z3DtCgS6lisrkQcqdOS2h5FTZ/exec">
   </head>
   <body>
     <p>Redirigiendo...</p>
